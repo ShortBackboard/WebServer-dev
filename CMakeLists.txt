@@ -7,8 +7,12 @@ add_executable( WebServer-dev )
 target_sources( WebServer-dev 
     PRIVATE
         main.cpp
+        httpConn.cpp
+
         include/locker.h
         include/threadpool.h
+        include/httpConn.h
+
         
     PUBLIC
         

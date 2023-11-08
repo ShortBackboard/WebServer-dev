@@ -3,6 +3,7 @@
 
 #include <list>
 #include <cstdio>
+#include "httpConn.h"
 #include "locker.h"
 
 
@@ -134,6 +135,7 @@ bool ThreadPool<T>::append(T* request)
     m_queueLocker.unlock();
 
     // 信号量增加，方便后续根据信号量数量控制阻塞与非阻塞
+    // 信号量大于0说明请求队列有任务
     m_queuestat.post();
 
     return true;
