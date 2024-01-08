@@ -1,7 +1,7 @@
 #include "include/httpConn.h"
 
 // 网站的工作目录
-const char *doc_root = "/run/media/root/work/WebServer-dev/resources";
+const char *doc_root = "/home/cnu/WebServer-dev/resources";
 // ./server 10000
 // http://192.168.56.101:10000/index.html
 // sudo chmod 777 index.html 修改访问权限
