@@ -70,6 +70,13 @@ void modfd(int epollfd, int fd, int ev) {
     epoll_ctl(epollfd, EPOLL_CTL_MOD, fd, &event);
 }
 
+int setnonblocking( int fd ) {
+    int old_option = fcntl( fd, F_GETFL );
+    int new_option = old_option | O_NONBLOCK;
+    fcntl( fd, F_SETFL, new_option );
+    return old_option;
+}
+
 
 // 对静态变量初始化
 int HttpConn::m_epollfd = -1;
@@ -364,7 +371,7 @@ LINE_STATUS HttpConn::parse_line(){
 // 映射到内存地址m_file_address处，并告诉调用者获取文件成功
 HTTP_CODE HttpConn::do_request()
 {
-    // "/home/cnu/WebServer/resources"
+    // "doc_root：/home/cnu/WebServer-dev/resources"
     strcpy( m_real_file, doc_root );
     int len = strlen( doc_root );
     strncpy( m_real_file + len, m_url, FILENAME_LEN - len - 1 );

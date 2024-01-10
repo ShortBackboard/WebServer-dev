@@ -21,6 +21,8 @@
 #include <stdarg.h>
 #include <sys/uio.h>
 
+class TimerNode;   // 前向声明
+
 #define READ_BUFFER_SIZE 2048  //读缓冲区的大小
 #define WRITE_BUFFER_SIZE 1024 //写缓冲区的大小
 #define FILENAME_LEN 200       // 文件名的最大长度
@@ -64,6 +66,8 @@ public:
     HttpConn(){}
 
     ~HttpConn(){}
+    
+    TimerNode* timer;          // 定时器
 
     // 处理客户端请求，解析请求报文，由线程池中的工作线程调用
     void process();

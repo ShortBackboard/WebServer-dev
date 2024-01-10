@@ -8,10 +8,12 @@ target_sources( WebServer-dev
     PRIVATE
         main.cpp
         httpConn.cpp
+        ./timer/srp_timer.cpp
 
         include/locker.h
         include/threadpool.h
         include/httpConn.h
+        ./timer/srp_timer.h
 
         
     PUBLIC

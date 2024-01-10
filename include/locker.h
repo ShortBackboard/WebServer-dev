@@ -4,6 +4,7 @@
 #include <pthread.h>
 #include <exception>
 #include <semaphore>
+#include <semaphore.h>
 
 
 // 1.用于线程同步封装类：互斥锁类
