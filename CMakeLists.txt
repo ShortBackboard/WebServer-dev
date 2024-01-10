@@ -7,13 +7,18 @@ add_executable( WebServer-dev )
 target_sources( WebServer-dev 
     PRIVATE
         main.cpp
-        httpConn.cpp
+        ./http/httpConn.cpp
         ./timer/srp_timer.cpp
+        ./buffer/buffer.cpp
+        ./log/log.cpp
 
-        include/locker.h
-        include/threadpool.h
-        include/httpConn.h
+        ./pool/locker.h
+        ./pool/threadpool.h
+        ./http/httpConn.h
         ./timer/srp_timer.h
+        ./buffer/buffer.h
+        ./log/blockqueue.h
+        ./log/log.h
 
         
     PUBLIC
@@ -21,6 +26,8 @@ target_sources( WebServer-dev
 )
 
 target_compile_features( WebServer-dev PRIVATE cxx_std_20 )
+
+SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-pthread")
 
 # install(TARGETS WebServer-dev
 #     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

@@ -1,6 +1,6 @@
-#include "include/threadpool.h"
+#include "./pool/threadpool.h"
 #include "./timer/srp_timer.h"
-#include <cassert>
+#include "./log/log.h"
 
 #define MAX_FD 65535           // 最大文件描述符数
 #define MAX_EVENT_NUMBER 10000 // 监听的最大事件数量
@@ -24,16 +24,10 @@ extern int setnonblocking(int fd);
 void addSig(int sig, void(handler)(int))
 {
     struct sigaction sa;
-    sa.sa_flags = 0;
-    sigemptyset(&sa.sa_mask); // 清空临时阻塞信号集
+    memset( &sa, '\0', sizeof( sa ) );
     sa.sa_handler = handler;
-
-    //????
-    // sigfillset(&sa.sa_mask);
-
-    // 注册新的信号捕捉
-    // 捕捉到该新信号就调用回调函数handler
-    sigaction(sig, &sa, NULL);
+    sigfillset( &sa.sa_mask );
+    assert( sigaction( sig, &sa, NULL ) != -1 );
 }
 
 // noactive向管道发送信号
@@ -115,6 +109,10 @@ int main(int argc, char *argv[])
         perror("socket");
         exit(-1);
     }
+
+    // 创建日志文件系统
+    Log::Instance()->init(1, "./log", ".log", 1024);
+    LOG_INFO("========== Server init ==========");
 
     // 设置端口复用
     int reuse = 1;
@@ -319,4 +317,6 @@ int main(int argc, char *argv[])
     close(listenfd);
     delete[] users;
     delete pool;
+
+    return 0;
 }
